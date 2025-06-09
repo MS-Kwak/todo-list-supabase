@@ -1,0 +1,12 @@
+.todo__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.todo__item {
+  flex: 1;
+}
+.todo__item.line {
+  text-decoration: line-through;
+}
