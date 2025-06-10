@@ -1,13 +1,22 @@
 'use server';
 
+import { Database } from 'types_db';
 import { createServerSupabaseClient } from 'utils/supabase/server';
 
-function handleError(error) {
+export type TodoRow = Database['public']['Tables']['todo']['Row'];
+export type TodoRowInsert =
+  Database['public']['Tables']['todo']['Insert'];
+export type TodoRowUpdate =
+  Database['public']['Tables']['todo']['Update'];
+
+const handleError = (error) => {
   console.error(error);
   throw new Error(error.message);
-}
+};
 
-export async function getTodos({ searchInput = '' }) {
+export async function getTodos({
+  searchInput = '',
+}): Promise<TodoRow[]> {
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase
     .from('todo')
@@ -22,7 +31,7 @@ export async function getTodos({ searchInput = '' }) {
   return data;
 }
 
-export async function createTodo(todo) {
+export async function createTodo(todo: TodoRowInsert) {
   const supabase = await createServerSupabaseClient();
 
   const { data, error } = await supabase.from('todo').insert({
@@ -37,7 +46,7 @@ export async function createTodo(todo) {
   return data;
 }
 
-export async function updateTodo(todo) {
+export async function updateTodo(todo: TodoRowUpdate) {
   const supabase = await createServerSupabaseClient();
   console.log(todo);
 
@@ -56,7 +65,7 @@ export async function updateTodo(todo) {
   return data;
 }
 
-export async function deleteTodo(id) {
+export async function deleteTodo(id: number) {
   const supabase = await createServerSupabaseClient();
 
   const { data, error } = await supabase
