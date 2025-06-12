@@ -2,19 +2,12 @@
 
 import style from './ui.module.css';
 import Todo from '/components/todo';
-import {
-  FormControl,
-  IconButton,
-  OutlinedInput,
-  InputLabel,
-  InputAdornment,
-  Button,
-} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getTodos, createTodo } from '/actions/todo.action';
+import Search from 'components/search';
 
 export default function UI() {
   const [searchInput, setSearchInput] = useState('');
@@ -35,28 +28,11 @@ export default function UI() {
   return (
     <div className={style.ui__container}>
       <h1 className={style.h1}>TODO LIST</h1>
-      <FormControl fullWidth sx={{ m: 1 }}>
-        <InputLabel htmlFor="outlined-adornment-amount">
-          Search todo
-        </InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-amount"
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                // onClick={handleClickShowPassword}
-                edge="end"
-              >
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Search todo"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-        />
-      </FormControl>
 
+      <Search
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+      />
       {todosQuery.isPending && <p>Loading...</p>}
       {todosQuery.data &&
         todosQuery.data.map((todo) => (
